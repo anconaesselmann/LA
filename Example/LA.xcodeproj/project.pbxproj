@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		979E7F322014939D000A7B93 /* LinearAlgebra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979E7F312014939D000A7B93 /* LinearAlgebra.swift */; };
 		A7B3A980B1B5E66F6C360DB0 /* Pods_LA_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE7A1E28C09C865EA12FA9A3 /* Pods_LA_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -16,11 +17,12 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		614E416576B928C9D645BB77 /* Pods-LA_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LA_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LA_Tests/Pods-LA_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		72AF99177E6467B8676ADEF6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		7E8FA16502FC618F9AF66851 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		72AF99177E6467B8676ADEF6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		7E8FA16502FC618F9AF66851 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		80F3CE40FA8C72B66D4A8FA9 /* Pods-LA_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LA_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LA_Tests/Pods-LA_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		979E7F312014939D000A7B93 /* LinearAlgebra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinearAlgebra.swift; path = ../LA/Classes/LinearAlgebra.swift; sourceTree = "<group>"; };
 		CE7A1E28C09C865EA12FA9A3 /* Pods_LA_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LA_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2782E28AB3B4FBA450EDB4F /* LA.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = LA.podspec; path = ../LA.podspec; sourceTree = "<group>"; };
+		F2782E28AB3B4FBA450EDB4F /* LA.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LA.podspec; path = ../LA.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				979E7F312014939D000A7B93 /* LinearAlgebra.swift */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
@@ -131,10 +134,6 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
-					607FACCF1AFB9204008FA782 = {
-						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
-					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 0900;
@@ -230,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				979E7F322014939D000A7B93 /* LinearAlgebra.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
