@@ -4,7 +4,7 @@
 
 import UIKit
 
-struct LineaAlgebra {
+public struct LineaAlgebra {
     static func add(a: CGPoint, b: CGPoint) -> CGPoint {
         return CGPoint(x: a.x + b.x, y: a.y + b.y)
     }
