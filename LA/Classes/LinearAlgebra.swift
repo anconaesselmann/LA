@@ -4,6 +4,14 @@
 
 import UIKit
 
+public typealias LALine = CGRect
+
+public extension CGSize {
+    var center: CGSize {
+        return CGSize(width: width / 2.0, height: height / 2.0)
+    }
+}
+
 public struct LineaAlgebra {
     public static func add(a: CGPoint, b: CGPoint) -> CGPoint {
         return CGPoint(x: a.x + b.x, y: a.y + b.y)
@@ -27,6 +35,14 @@ public struct LineaAlgebra {
         let l = lenght(point: point)
         return scalarDiv(point: point, scalar: l)
     }
+
+    static func unitVector(from point1: CGPoint, to point2: CGPoint) -> CGPoint {
+        let offset = CGPoint(
+            x: point2.x - point1.x,
+            y: point2.y - point1.y)
+        return LineaAlgebra.unit(point: offset)
+    }
+
     public static func orthUnit(point: CGPoint) -> CGPoint {
         let orth = CGPoint(x: -point.y, y: point.x)
         return unit(point: orth)
@@ -44,3 +60,22 @@ public struct LineaAlgebra {
     }
 }
 
+public extension CGPoint {
+
+    var unit: CGPoint {
+        return LineaAlgebra.unit(point: self)
+    }
+
+    func unit(to point: CGPoint) -> CGPoint {
+        return LineaAlgebra.unitVector(from: self, to: point)
+    }
+
+    var orthUnit: CGPoint {
+        return LineaAlgebra.orthUnit(point: self)
+    }
+
+    func changeOfBasis(newOrigin: CGPoint, pointOnXAxis xAxisPoint: CGPoint) -> CGPoint {
+        return LineaAlgebra.changeOfBasis(for: self, newOrigin: newOrigin, pointOnXAxis: xAxisPoint)
+    }
+
+}
