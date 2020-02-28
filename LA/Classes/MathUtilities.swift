@@ -228,6 +228,157 @@ public extension CGFloat {
     }
 }
 
+public enum Rotation {
+    case none
+    case clockwise(Radian)
+    case couterClockwise(Radian)
+
+    public var isClockwise: Bool {
+        if case .clockwise = self {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    public var isCouterClockwise: Bool {
+        if case .couterClockwise = self {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    public init(previous: Radian, now: Radian) {
+        let delta = now - previous
+        self.init(delta: delta)
+    }
+
+    public init(delta: Radian) {
+        if delta.isZero {
+            self = .none
+        } else if delta.asDouble > 0 {
+            self = .clockwise(delta)
+        } else {
+            self = .couterClockwise(abs(delta))
+        }
+    }
+
+    public var positiveRadian: Rotation {
+        switch self {
+        case .none: return self
+        case .clockwise(let radian):
+            if radian < .zero {
+                return .couterClockwise(-radian)
+            } else {
+                return self
+            }
+        case .couterClockwise(let radian):
+            if radian < .zero {
+                return .clockwise(-radian)
+            } else {
+                return self
+            }
+        }
+    }
+
+    public var clockwiseRadian: Radian {
+        switch self {
+        case .none: return Radian.zero
+        case .clockwise(let radian):
+            return radian
+        case .couterClockwise(let radian):
+            return -radian
+        }
+    }
+
+    public var counterClockwiseRadian: Radian {
+        return -clockwiseRadian
+    }
+
+    func updated(radian: Radian) -> Self {
+        if radian.isZero {
+            return .none
+        }
+        let result: Self
+        switch self {
+        case .none:
+            result = .clockwise(radian)
+        case .clockwise:
+            result = .clockwise(radian)
+        case .couterClockwise:
+            result = .couterClockwise(radian)
+        }
+        return result.positiveRadian
+    }
+
+    public var truncated: Rotation {
+        switch self.positiveRadian {
+        case .none: return .none
+        case .clockwise(let radian),
+             .couterClockwise(let radian):
+            let truncated = radian.truncated
+            guard truncated.notZero else {
+                return .none
+            }
+            guard truncated > .pi else {
+                return updated(radian: truncated)
+            }
+            let inverted = .twoPi - truncated
+            return isClockwise
+                ? .couterClockwise(inverted)
+                : .clockwise(inverted)
+        }
+    }
+
+    public var clockwiseRotations: Double {
+        return clockwiseRadian.asDouble / (.pi * 2)
+    }
+
+    public var counterClockwiseRotations: Double {
+        return -clockwiseRotations
+    }
+
+    public var fullClockwiseRotations: Int {
+        return Int(clockwiseRotations)
+    }
+
+    public var fullCounterClockwiseRotations: Int {
+        return Int(counterClockwiseRotations)
+    }
+
+    public static func +(lhs: Rotation, rhs: Rotation) -> Rotation {
+        switch (lhs, rhs) {
+        case (.none, .none): return .none
+        case (.clockwise(let lhsRad), .clockwise(let rhsRad)):
+            return .clockwise(lhsRad + rhsRad)
+        case (.couterClockwise(let lhsRad), .couterClockwise(let rhsRad)):
+             return .couterClockwise(lhsRad + rhsRad)
+        case (.clockwise, .none),
+             (.couterClockwise, .none):
+             return lhs
+        case (.none, .clockwise),
+             (.none, .couterClockwise):
+            return rhs
+        case (.couterClockwise(let ccwRad), clockwise(let cwRad)),
+             (clockwise(let cwRad), .couterClockwise(let ccwRad)):
+            if ccwRad > cwRad {
+                return .couterClockwise(ccwRad - cwRad)
+            } else {
+                return .clockwise(cwRad - ccwRad)
+            }
+        }
+    }
+
+    public static func +=(left: inout Rotation, right: Rotation) {
+        left = left + right
+    }
+
+    public static func == (lhs: Rotation, rhs: Rotation) -> Bool {
+        lhs.clockwiseRadian == rhs.clockwiseRadian
+    }
+}
+
 
 public struct Radian: CustomStringConvertible {
 
@@ -371,6 +522,14 @@ public struct Radian: CustomStringConvertible {
         return Radian(self.asDouble.truncatingRemainder(dividingBy: other))
     }
 
+    public var truncated: Radian {
+        return truncatingRemainder(dividingBy: .twoPi)
+    }
+
+    public var rotations: Double {
+        return abs(self.radian) / (.pi * 2)
+    }
+
 }
 
 public extension CGPoint {
@@ -427,8 +586,19 @@ public extension CGPoint {
     }
 
     // Angle between two vectors in a counterclockwise direction
+    // Note: Seems to be clockwise? also has negative values when angle is closer to cc direction
     func angleCC(with vector: CGPoint) -> Radian {
         return Radian(atan2(x * vector.y - y * vector.x, self * vector))
+    }
+
+    // Angle between two vectors in a clocwise direction
+    func angleC(with vector: CGPoint) -> Radian {
+        let rad = atan2(x * vector.y - y * vector.x, self * vector)
+        if rad < 0 {
+            return Radian(CGFloat.pi * 2 + rad)
+        } else {
+            return Radian(rad)
+        }
     }
 
 }
@@ -447,4 +617,10 @@ public func cos(_ angle: Radian) -> Double {
 }
 public func sin(_ angle: Radian) -> Double {
     return sin(angle.asDouble)
+}
+
+extension CGPoint {
+    var cgSize: CGSize {
+        return CGSize(width: x, height: y)
+    }
 }

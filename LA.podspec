@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'LA'
-  s.version          = '0.2.0'
+  s.version          = '0.2.1'
   s.summary          = 'A collection of linear algebra functions'
   s.swift_version    = '5.0'
   s.description      = <<-DESC
